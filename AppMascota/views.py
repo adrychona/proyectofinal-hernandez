@@ -5,6 +5,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.decorators import login_required
 #Archivos del proyecto
 from AppMascota.models import * #from .models import Caninos 
 from AppMascota.forms import *
@@ -20,6 +21,7 @@ def about(request):
     return render(request,'About/about.html')
 
 #Vista de register/login/logout
+
 def inicio_sesion(request):
 
     if request.method == "POST": #si el usuario hace click en el botón
@@ -139,6 +141,7 @@ def eliminar_mascota(request, mascota_nombre):
 """
 # CRUD Mascotas (VISTAS BASADAS EN CLASES)
 #Create
+ #es un decorador!! --- me permite agregar funcionalidades a mi vista
 class Createmascotas(CreateView):
     model = Mascota
     template_name = "AppMascota/mascota_create.html"
@@ -146,12 +149,14 @@ class Createmascotas(CreateView):
     success_url = '/mascota_list/'
   
 #Read
+
 class Listamascotas(ListView):
     
     model = Mascota # Con estas dos lineas solamente python va a buscar automaticamente un html que se llame mascota_list.html
     #template_name = "AppMascotas/nombre_personalizado_de_template.html"
 
 #Update
+
 class Actualizarmascotas(UpdateView):
     model = Mascota
     template_name = "AppMascota/mascota_create.html"
@@ -159,11 +164,13 @@ class Actualizarmascotas(UpdateView):
     success_url = '/mascota_list/'
 
 #Delete
+
 class Borrarmascotas(DeleteView):
     model = Mascota
     success_url = '/mascota_list/'
 
 #Detail
+
 class Detallemascotas(DetailView):
     model = Mascota
 
@@ -171,6 +178,7 @@ class Detallemascotas(DetailView):
 
 # CRUD Vacunas (VISTAS BASADAS EN CLASES)
 #Create
+
 class Createvacunas(CreateView):
     model = Vacuna
     template_name = "AppMascota/vacuna_create.html"
@@ -178,12 +186,14 @@ class Createvacunas(CreateView):
     success_url = '/vacuna_list/'
 
 #Read
+
 class Listavacunas(ListView):
     
     model = Vacuna # Con estas dos lineas solamente python va a buscar automaticamente un html que se llame vacuna_list.html
     #template_name = "AppMascotas/nombre_personalizado_de_template.html"
 
 #Update
+
 class Actualizarvacunas(UpdateView):
     model = Vacuna
     template_name = "AppMascota/vacuna_create.html"
@@ -191,10 +201,12 @@ class Actualizarvacunas(UpdateView):
     success_url = '/vacuna_list/'
 
 #Delete
+
 class Borrarvacunas(DeleteView):
     
     model = Vacuna
     success_url = '/vacuna_list/'
+
 
 class Detallevacunas(DetailView):
     
@@ -203,6 +215,7 @@ class Detallevacunas(DetailView):
 
 # CRUD Consultas (VISTAS BASADAS EN CLASES)
 #Create
+
 class Createconsultas(CreateView):
     model = Consulta
     template_name = "AppMascota/consulta_create.html"
@@ -210,12 +223,14 @@ class Createconsultas(CreateView):
     success_url = '/consulta_list/'
   
 #Read
+
 class Listaconsultas(ListView):
     
     model = Consulta # Con estas dos lineas solamente python va a buscar automaticamente un html que se llame mascota_list.html
     #template_name = "AppMascotas/nombre_personalizado_de_template.html"
 
 #Update
+
 class Actualizarconsultas(UpdateView):
     model = Consulta
     template_name = "AppMascota/consulta_create.html"
@@ -223,9 +238,11 @@ class Actualizarconsultas(UpdateView):
     success_url = '/consulta_list/'
 
 #Delete
+
 class Borrarconsultas(DeleteView):
     model = Consulta
     success_url = '/consulta_list/'
+
 
 class Detalleconsultas(DetailView):
     model = Consulta
@@ -380,9 +397,11 @@ def agregar_consulta(request):
 """
 
 #Busqueda personalizada / filtrando elementos.
+
 def buscar(request):
     
     return render(request,"AppMascota/buscar.html")
+
 
 def resultado_vacuna(request):
     #return HttpResponse(f"Estoy buscando los perros de la especie {request.GET['especie']}")
@@ -398,6 +417,7 @@ def resultado_vacuna(request):
 
     #return HttpResponse(f'Estas buscando las mascotas por la especie {request.GET["especie"]} ')
     return HttpResponse(respuesta)
+
 
 def resultado_especie(request):
     #return HttpResponse(f"Estoy buscando los perros de la especie {request.GET['especie']}")

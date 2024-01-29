@@ -23,8 +23,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', inicio, name='inicio'),
     path('login/', inicio_sesion, name='login' ),
+    path('logout/', LogoutView.as_view(template_name="registro/logout.html"), name='logout'),
     path('signup/', registro, name='registro' ),
-    path('logout/', LogoutView.as_view(template_name="registro/cerrar_session.html"), name='logout' ),
     path('about/', about, name='about' ),
     #_VISTAS BASADAS EN FUNCIONES_
 

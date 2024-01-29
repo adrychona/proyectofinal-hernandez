@@ -34,10 +34,15 @@
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'lista_mascotas' %}">Mascotas</a></li>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'lista_vacunas' %}">Vacunas</a></li> 
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'lista_consultas' %}">Consultas</a></li>
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'login' %}">Login</a></li>  
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'registro' %}">Sing Up</a></li>
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'logout' %}">Logout</a></li>  
-                    </ul>
+
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'registro' %}"><button type="button" class="btn btn-secondary btn-sm">Sing Up</button></a></li>    
+
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'login' %}"><button type="button" class="btn btn-secondary btn-sm">Login</button></a></li>    
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4"> <form method="post" action="{% url 'logout' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-secondary btn-sm">logout</button>
+                        </form> </a>
+                       
                 </div>
             </div>
         </nav>
