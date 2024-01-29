@@ -5,7 +5,11 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+
+#Decorador por defecto
+from django.utils.decorators import method_decorator #me permite usar el decorator en class-based view
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 #Archivos del proyecto
 from AppMascota.models import * #from .models import Caninos 
 from AppMascota.forms import *
@@ -142,6 +146,7 @@ def eliminar_mascota(request, mascota_nombre):
 # CRUD Mascotas (VISTAS BASADAS EN CLASES)
 #Create
  #es un decorador!! --- me permite agregar funcionalidades a mi vista
+
 class Createmascotas(CreateView):
     model = Mascota
     template_name = "AppMascota/mascota_create.html"
@@ -149,8 +154,8 @@ class Createmascotas(CreateView):
     success_url = '/mascota_list/'
   
 #Read
-
-class Listamascotas(ListView):
+@method_decorator(login_required, name='dispatch')
+class Listamascotas(LoginRequiredMixin, ListView):
     
     model = Mascota # Con estas dos lineas solamente python va a buscar automaticamente un html que se llame mascota_list.html
     #template_name = "AppMascotas/nombre_personalizado_de_template.html"

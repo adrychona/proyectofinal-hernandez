@@ -1,5 +1,5 @@
 {% extends "AppMascota/padre.html" %}
-    
+
 
 {% block titulo %}
 <h1>Incio de sesion</h1>
@@ -7,9 +7,9 @@
 
 {% block contenido %}
 <form action="" method="POST"> {% csrf_token %}
-    
+
     {{formu}}
     <input type="submit" value="Iniciar Sesión">
 </form>
 
-{% endblock %}             
+{% endblock %}
