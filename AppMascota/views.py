@@ -4,7 +4,7 @@ from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
 from django.contrib.auth import login, authenticate
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 #Archivos del proyecto
 from AppMascota.models import * #from .models import Caninos 
 from AppMascota.forms import *
@@ -15,6 +15,9 @@ from AppMascota.forms import *
 #Main view
 def inicio(request):
     return render(request,'AppMascota/inicio.html')
+
+def about(request):
+    return render(request,'About/about.html')
 
 #Vista de register/login/logout
 def inicio_sesion(request):
@@ -41,6 +44,28 @@ def inicio_sesion(request):
         form = AuthenticationForm()
     return render(request,'registro/inicio_sesion.html', {"formu":form})
 
+def registro(request):
+    
+    #formulario = UserCreationForm()
+    #return render(request, "registro/registrar_usuario.html", {"formu":formulario})
+    
+    if request.method == "POST": #Si le doy click a registrarse
+        #formulario = UserCreationForm(request.POST) #tengo la informacion 
+        formulario = RegistrarUsuario(request.POST) #Uso formulario creado en forms para obtener más datos
+
+        if formulario.is_valid(): 
+            info = formulario.cleaned_data
+            usuario = info["first_name"] #obtener el nombre de usuario con el que se registro
+            
+            formulario.save() #Ya se crea el usuario
+            
+            return render(request, "AppMascota/inicio.html",), {"mensjae": f"Gracias por registrarte en Mascofiles {usuario}!"}
+        
+    else:
+        #formulario = UserCreationForm()
+        formulario = RegistrarUsuario()
+
+    return render(request, "registro/registrar_usuario.html", {"formu":formulario})
 
 
 """

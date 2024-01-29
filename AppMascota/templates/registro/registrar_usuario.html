@@ -2,14 +2,14 @@
     
 
 {% block titulo %}
-<h1>Incio de sesion</h1>
+<h1>Registrarse</h1>
 {% endblock %}
 
 {% block contenido %}
 <form action="" method="POST"> {% csrf_token %}
     
     {{formu}}
-    <input type="submit" value="Iniciar Sesión">
+    <input type="submit" value="Sign Up">
 </form>
 
-{% endblock %}             
+{% endblock %}

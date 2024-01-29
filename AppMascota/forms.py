@@ -1,4 +1,6 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
 class Mascotaformulario(forms.Form):
    
@@ -23,3 +25,19 @@ class Consultaformulario(forms.Form):
     vet = forms.CharField(max_length=40)
     establecimiento = forms.CharField(max_length=100)
 
+class RegistrarUsuario(UserCreationForm):
+    username = forms.CharField(label= "Usuario") 
+    email = forms.EmailField(label= "Correo electronico") 
+    #password1 = forms.PasswordInput() Este modelo agrega nuevamente el registro or default de django
+    #password2 = forms.PasswordInput()
+    password1 = forms.CharField(label= "Ingrese la contraseña", widget= forms.PasswordInput) 
+    password2 = forms.CharField(label= "Confirme la contraseña", widget= forms.PasswordInput)
+    first_name = forms.CharField(label= "Nombre")
+    last_name = forms.CharField(label= "Apellido")
+
+    class Meta:
+        model = User
+        #["username", "email", "password1", "password2", "first_name", "last_name"] campos django por defecto
+        fields = ["username", "email", "password1", "password2", "first_name", "last_name"]
+
+   

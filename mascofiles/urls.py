@@ -17,12 +17,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from AppMascota.views import *
+from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', inicio, name='inicio'),
     path('login/', inicio_sesion, name='login' ),
-    path('about/', inicio_sesion, name='about' ),
+    path('signup/', registro, name='registro' ),
+    path('logout/', LogoutView.as_view(template_name="registro/cerrar_session.html"), name='logout' ),
+    path('about/', about, name='about' ),
     #_VISTAS BASADAS EN FUNCIONES_
 
     # URLs para crear nuevos datos usando formularios django
