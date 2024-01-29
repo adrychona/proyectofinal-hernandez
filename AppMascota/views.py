@@ -42,7 +42,7 @@ def inicio_sesion(request):
 
 
 
-
+"""
 # CRUD Mascota (VISTAS BASADAS EN FUNCIONES)
 # C (Create)
 def agregar_mascota(request):
@@ -110,7 +110,33 @@ def eliminar_mascota(request, mascota_nombre):
     mascota_selecionada.delete() #Eliminamos serie seleccionada
     return render(request, "AppMascota/confirmacion_eliminada.html") #no es necesario un html para esto por ahora
 
+"""
+# CRUD Mascotas (VISTAS BASADAS EN CLASES)
+#Create
+class Createmascotas(CreateView):
+    model = Mascota
+    template_name = "AppMascota/mascota_create.html"
+    fields = ["nombre", "especie", "raza", "edad"]
+    success_url = '/mascota_list/'
+  
+#Read
+class Listamascotas(ListView):
+    
+    model = Mascota # Con estas dos lineas solamente python va a buscar automaticamente un html que se llame mascota_list.html
+    #template_name = "AppMascotas/nombre_personalizado_de_template.html"
 
+#Update
+class Actualizarmascotas(UpdateView):
+    model = Mascota
+    template_name = "AppMascota/mascota_create.html"
+    fields = ["nombre", "especie", "raza", "edad"]
+    success_url = '/mascota_list/'
+
+#Delete
+class Borrarmascotas(DeleteView):
+    model = Mascota
+    template_name = "AppMascota/mascota_delete.html"
+    success_url = '/mascota_list/'
 
 
 # CRUD Vacunas (VISTAS BASADAS EN CLASES)
@@ -140,7 +166,34 @@ class Borrarvacunas(DeleteView):
     template_name = "AppMascota/vacuna_delete.html"
     success_url = '/vacuna_list/'
 
-# VISTAS BASADAS EN FUNCIONES
+# CRUD Consultas (VISTAS BASADAS EN CLASES)
+#Create
+class Createconsultas(CreateView):
+    model = Consulta
+    template_name = "AppMascota/consulta_create.html"
+    fields = ["paciente", "fecha", "motivo", "vet", "establecimiento"]
+    success_url = '/consulta_list/'
+  
+#Read
+class Listaconsultas(ListView):
+    
+    model = Consulta # Con estas dos lineas solamente python va a buscar automaticamente un html que se llame mascota_list.html
+    #template_name = "AppMascotas/nombre_personalizado_de_template.html"
+
+#Update
+class Actualizarconsultas(UpdateView):
+    model = Consulta
+    template_name = "AppMascota/consulta_create.html"
+    fields = ["paciente", "fecha", "motivo", "vet", "establecimiento"]
+    success_url = '/consulta_list/'
+
+#Delete
+class Borrarconsultas(DeleteView):
+    model = Consulta
+    template_name = "AppMascota/consulta_delete.html"
+    success_url = '/consulta_list/'
+
+
 
 """
 # CRUD Vacunas (VISTAS BASADAS EN FUNCIONES)
@@ -292,19 +345,33 @@ def agregar_consulta(request):
 """
 
 #Busqueda personalizada / filtrando elementos.
-def consultar_mascotas(request):
+def buscar(request):
     
-    return render(request,"AppMascota/consultaporespecie.html")
+    return render(request,"AppMascota/buscar.html")
 
+def resultado_vacuna(request):
+    #return HttpResponse(f"Estoy buscando los perros de la especie {request.GET['especie']}")
+    if request.method == "GET":
+        
+        mascotas = request.GET['mascota']
+        vacunas = Vacuna.objects.filter(mascota__icontains=mascotas)
+        
+        return render(request,"AppMascota/resultado_vacunas.html", { "vacunas": vacunas, "mascotas": mascotas})
+   
+    else: #si aun no le hacer click al boton BUSCAR
+        respuesta = "No enviaste datos"
 
-def resultadoconsultaporespecie(request):
+    #return HttpResponse(f'Estas buscando las mascotas por la especie {request.GET["especie"]} ')
+    return HttpResponse(respuesta)
+
+def resultado_especie(request):
     #return HttpResponse(f"Estoy buscando los perros de la especie {request.GET['especie']}")
     if request.method == "GET":
         
         especies = request.GET['especie']
         mascotas = Mascota.objects.filter(especie__icontains=especies)
         
-        return render(request,"AppMascota/resultado.html", { "mascotas": mascotas, "especies": especies})
+        return render(request,"AppMascota/resultado_especies.html", { "mascotas": mascotas, "especies": especies})
    
     else: #si aun no le hacer click al boton BUSCAR
         respuesta = "No enviaste datos"

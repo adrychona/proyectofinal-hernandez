@@ -1,0 +1,22 @@
+{% extends "AppMascota/padre.html" %}
+
+{% block titulo %}
+
+<h1>Busqueda de mascotas por especie: {{especies}}</h1>
+
+<table>
+    <tr>
+        <td style="padding: 15px;"><strong>Nombre</strong></td>
+        <td style="padding: 15px;"><strong>Raza</strong></td>
+        <td style="padding: 15px;"><strong>Edad</strong></td>
+    </tr>
+
+    {% for x in mascotas %} <tr>
+        <td style="padding: 15px;">{{x.nombre}}</td>
+        <td style="padding: 15px;">{{x.raza}}</td>
+        <td style="padding: 15px;">{{x.edad}}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

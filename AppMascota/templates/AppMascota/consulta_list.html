@@ -1,0 +1,34 @@
+{% extends "AppMascota/padre.html" %}
+    {% block titulo %}
+    <h1>Consultas</h1>
+    {% endblock %}
+    {% block contenido %} 
+    <h1>Listado de consultas</h1> 
+    <button class="my-button" style="margin-left: 80%; margin-right: 0%; "><a href="{% url 'crear_consulta' %}">Agregar nueva consulta</a></button>
+
+<table  style="padding: 15px;">
+<tr>
+  <td style="padding: 15px;"><strong>Paciente</strong></td>
+  <td style="padding: 15px;"><strong>Fecha</strong></td>
+  <td style="padding: 15px;"><strong>Motivo</strong></td>
+  <td style="padding: 15px;"><strong>Vet</strong></td>
+  <td style="padding: 15px;"><strong>Establecimiento</strong></td>
+</tr>
+
+{% for x in object_list %} <tr >
+  <td style="padding: 15px;">{{x.paciente}}</td>
+  <td style="padding: 15px;">{{x.fecha}}</td>
+  <td style="padding: 15px;">{{x.motivo}}</td>
+  <td style="padding: 15px;">{{x.vet}}</td>
+  <td style="padding: 15px;">{{x.establecimiento}}</td>
+  <td> 
+    <button><a href="{% url 'actualizar_mascota' x.id %}">Actualizar</a></button>
+    <button><a href="{% url 'eliminar_mascota' x.id %}">Eliminar</a></button>
+  </td>
+  </tr> 
+  {% endfor %}  </table>
+    <br>            
+{% endblock %}
+
+
+
