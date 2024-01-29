@@ -1,0 +1,22 @@
+{% extends "AppMascota/padre.html" %}
+
+    {% block titulo %}
+
+    <h1>Vacunas</h1>
+
+    {% endblock %}
+
+    {% block contenido %}
+   
+    <table>{% for x in vacunas %}
+        <td class="my-class" style="padding-left: 3em; padding-right: 3em; ">
+            {{x.vacuna}}
+        </td>
+        {% endfor %}</table>
+        <br>
+        <br>
+        <br>
+    
+    <button class="my-button" style="margin-left: 40%; margin-right: 40%; "><a href="{% url 'formulario vacuna' %}">Agregar Vacunas</a></button>             
+    
+    {% endblock %}
