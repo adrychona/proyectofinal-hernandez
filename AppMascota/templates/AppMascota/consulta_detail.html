@@ -1,0 +1,32 @@
+{% extends "AppMascota/padre.html" %}
+{% block titulo %}
+<h1>Consultas</h1>
+{% endblock %}
+{% block contenido %}
+<h3>Detalle consulta</h3>
+
+<table>
+    <tr>
+        <td style="padding: 15px;"><strong>Paciente</strong></td>
+        <td style="padding: 15px;"><strong>Fecha</strong></td>
+        <td style="padding: 15px;"><strong>Motivo</strong></td>
+        <td style="padding: 15px;"><strong>Vet</strong></td>
+        <td style="padding: 15px;"><strong>Establecimiento</strong></td>
+    </tr>
+
+    <tr> 
+        <td style="padding: 15px;">{{consulta.paciente}}</td>
+        <td style="padding: 15px;">{{consulta.fecha}}</td>
+        <td style="padding: 15px;">{{consulta.motivo}}</td>
+        <td style="padding: 15px;">{{consulta.vet}}</td>
+        <td style="padding: 15px;">{{consulta.establecimiento}}</td>
+    </tr>
+
+</table>
+<br>
+<button class="my-button" style="margin-left: 80%; margin-right: 0%; "><a
+        href="{% url 'lista_consultas' %}">Regresar</a></button>
+{% endblock %}
+
+
+    

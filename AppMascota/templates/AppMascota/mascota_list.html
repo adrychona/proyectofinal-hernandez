@@ -10,16 +10,15 @@
 <tr>
   <td style="padding: 15px;"><strong>Nombre</strong></td>
   <td style="padding: 15px;"><strong>Especie</strong></td>
-  <td style="padding: 15px;"><strong>Raza</strong></td>
-  <td style="padding: 15px;"><strong>Edad</strong></td>
+
 </tr>
 
 {% for x in object_list %} <tr >
   <td style="padding: 15px;">{{x.nombre}}</td>
   <td style="padding: 15px;">{{x.especie}}</td>
-  <td style="padding: 15px;">{{x.raza}}</td>
-  <td style="padding: 15px;">{{x.edad}}</td>
-  <td style="padding: 15px;"> 
+
+  <td style="padding: 15px;">
+    <button><a href="{% url 'mascota_detail' x.id %}">Detalle</a></button>
     <button><a href="{% url 'actualizar_mascota' x.id %}">Actualizar</a></button>
     <button><a href="{% url 'eliminar_mascota' x.id %}">Eliminar</a></button>
   </td>

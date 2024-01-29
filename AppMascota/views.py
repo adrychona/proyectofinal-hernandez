@@ -2,6 +2,7 @@
 from django.shortcuts import render, HttpResponse
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.detail import DetailView
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 #Archivos del proyecto
@@ -135,8 +136,12 @@ class Actualizarmascotas(UpdateView):
 #Delete
 class Borrarmascotas(DeleteView):
     model = Mascota
-    template_name = "AppMascota/mascota_delete.html"
     success_url = '/mascota_list/'
+
+#Detail
+class Detallemascotas(DetailView):
+    model = Mascota
+
 
 
 # CRUD Vacunas (VISTAS BASADAS EN CLASES)
@@ -162,9 +167,14 @@ class Actualizarvacunas(UpdateView):
 
 #Delete
 class Borrarvacunas(DeleteView):
+    
     model = Vacuna
-    template_name = "AppMascota/vacuna_delete.html"
     success_url = '/vacuna_list/'
+
+class Detallevacunas(DetailView):
+    
+    model = Vacuna #django sabe el contexto si coloco el nombre del modelo en minuscula
+
 
 # CRUD Consultas (VISTAS BASADAS EN CLASES)
 #Create
@@ -190,10 +200,10 @@ class Actualizarconsultas(UpdateView):
 #Delete
 class Borrarconsultas(DeleteView):
     model = Consulta
-    template_name = "AppMascota/consulta_delete.html"
     success_url = '/consulta_list/'
 
-
+class Detalleconsultas(DetailView):
+    model = Consulta
 
 """
 # CRUD Vacunas (VISTAS BASADAS EN FUNCIONES)

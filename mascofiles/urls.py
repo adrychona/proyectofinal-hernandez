@@ -48,17 +48,20 @@ urlpatterns = [
     
     #_VISTAS BASADAS EN CLAES_
     path("vacuna_list/", Listavacunas.as_view(), name = 'lista_vacunas'),
+    path("vacuna_detail/<int:pk>", Detallevacunas.as_view(), name = 'vacuna_detail'),
     path("vacuna_create/", Createvacunas.as_view(), name = 'crear_vacuna'),
     path("vacuna_update/<int:pk>", Actualizarvacunas.as_view(), name = 'actualizar_vacuna'),
-    path("vacuna_delete/<int:pk>", Borrarvacunas.as_view(), name = 'eliminar_vacuna'),
+    path("vacuna_confirm_delete/<int:pk>", Borrarvacunas.as_view(), name = 'eliminar_vacuna'),
     
     path("mascota_list/", Listamascotas.as_view(), name = 'lista_mascotas'),
+    path("mascota_detail/<int:pk>", Detallemascotas.as_view(), name = 'mascota_detail'),
     path("mascota_create/", Createmascotas.as_view(), name = 'crear_mascota'),
     path("mascota_update/<int:pk>", Actualizarmascotas.as_view(), name = 'actualizar_mascota'),
-    path("mascota_delete/<int:pk>", Borrarmascotas.as_view(), name = 'eliminar_mascota'),
+    path("mascota_confirm_delete/<int:pk>", Borrarmascotas.as_view(), name = 'eliminar_mascota'),
 
     path("consulta_list/", Listaconsultas.as_view(), name = 'lista_consultas'),
+    path("consulta_detail/<int:pk>", Detalleconsultas.as_view(), name = 'consulta_detail'),
     path("consulta_create/", Createconsultas.as_view(), name = 'crear_consulta'),
     path("consulta_update/<int:pk>", Actualizarconsultas.as_view(), name = 'actualizar_consulta'),
-    path("consulta_delete/<int:pk>", Borrarconsultas.as_view(), name = 'eliminar_consulta'),
+    path("consulta_confirm_delete/<int:pk>", Borrarconsultas.as_view(), name = 'eliminar_consulta'),
     ] 

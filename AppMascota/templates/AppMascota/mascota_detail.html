@@ -1,0 +1,27 @@
+{% extends "AppMascota/padre.html" %}
+{% block titulo %}
+<h1>Mascotas</h1>
+{% endblock %}
+{% block contenido %}
+<h3>Detalle mascota</h3>
+
+<table>
+    <tr>
+        <td style="padding: 15px;"><strong>Mascota</strong></td>
+        <td style="padding: 15px;"><strong>Especie</strong></td>
+        <td style="padding: 15px;"><strong>Raza</strong></td>
+        <td style="padding: 15px;"><strong>Edad</strong></td>
+    </tr>
+
+    <tr> 
+        <td style="padding: 15px;">{{mascota.nombre}}</td>
+        <td style="padding: 15px;">{{mascota.especie}}</td>
+        <td style="padding: 15px;">{{mascota.raza}}</td>
+        <td style="padding: 15px;">{{mascota.edad}}</td>
+    </tr>
+
+</table>
+<br>
+<button class="my-button" style="margin-left: 80%; margin-right: 0%; "><a
+        href="{% url 'lista_mascotas' %}">Regresar</a></button>
+{% endblock %}
