@@ -46,18 +46,20 @@
                             href="{% url 'lista_vacunas' %}">Vacunas</a></li>
                     <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4"
                             href="{% url 'lista_consultas' %}">Consultas</a></li>
-
-                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'registro' %}"><button
-                                type="button" class="btn btn-secondary btn-sm">Sing Up</button></a></li>
-
-                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'login' %}"><button
-                                type="button" class="btn btn-secondary btn-sm">Login</button></a></li>
+                    {% if user.is_authenticated %}
                     <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4">
                             <form method="post" action="{% url 'logout' %}">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-secondary btn-sm">logout</button>
                             </form>
-                        </a>
+                        </a></li>
+                    {% else %}
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'registro' %}"><button
+                                type="button" class="btn btn-secondary btn-sm">Sing Up</button></a></li>
+
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'login' %}"><button
+                                type="button" class="btn btn-secondary btn-sm">Login</button></a></li>
+                    {% endif %}
 
             </div>
         </div>
