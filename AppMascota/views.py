@@ -24,7 +24,7 @@ def inicio(request):
 def about(request):
     return render(request,'About/about.html')
 
-#Vista de register/login/logout
+#Vista de register/login/logout/update profile
 
 def inicio_sesion(request):
 
@@ -58,15 +58,14 @@ def registro(request):
     if request.method == "POST": #Si le doy click a registrarse
         #formulario = UserCreationForm(request.POST) #tengo la informacion 
         formulario = RegistrarUsuario(request.POST) #Uso formulario creado en forms para obtener más datos
-
+       
         if formulario.is_valid(): 
             info = formulario.cleaned_data
             usuario = info["first_name"] #obtener el nombre de usuario con el que se registro
             
             formulario.save() #Ya se crea el usuario
             
-            return render(request, "AppMascota/inicio.html",), {"mensjae": f"Gracias por registrarte en Mascofiles {usuario}!"}
-        
+            return render(request, "AppMascota/inicio.html", {"mensaje": f"Gracias por registrarte en Mascofiles {usuario}"})       
     else:
         #formulario = UserCreationForm()
         formulario = RegistrarUsuario()
@@ -74,75 +73,27 @@ def registro(request):
     return render(request, "registro/registrar_usuario.html", {"formu":formulario})
 
 
-"""
-# CRUD Mascota (VISTAS BASADAS EN FUNCIONES)
-# C (Create)
-def agregar_mascota(request):
-    #Depende de darle click al boton enviar
-    if request.method == "POST":
-        
-        nuevo_formulario = Mascotaformulario(request.POST)        
-        
-        if nuevo_formulario.is_valid(): #Crear un objeto usando el modelo.
-            
-            info = nuevo_formulario.cleaned_data #Para tenerlos en modo diccionario.
-            
-            mascota_nueva = Mascota(nombre=info["nombre"], especie=info["especie"], raza=info["raza"], edad=info["edad"])
-            
-            mascota_nueva.save()
-            return render(request, "AppMascota/confirmacion.html") #muestra la plantilla de inicio
-        
-    else: #si la persona no ha hecho click en el boton enviar
-            
-        nuevo_formulario = Mascotaformulario() #mostraremos un formulario vacio
+@login_required
+def editar_perfil(request):
 
-    return render(request,"AppMascota/formulario_mascota.html", {"mi_form":nuevo_formulario}) #Conexion HTML con la vista
+    #Instancia del login
+    user_actual = request.user
+     
+    #Si es metodo POST ... actualizo
+    if request.method == 'POST':
+        formulario = EditarUsuario(request.POST) 
+        if formulario.is_valid():  
+            info = formulario.cleaned_data
+            user_actual.email = info['email']
+            user_actual.password1 = info['password1']
+            user_actual.password2 = info['password1']
+            user_actual.save()
+            return render(request, "AppMascota/inicio.html")     
+    else: 
+        formulario= EditarUsuario(initial={ 'email':user_actual.email}) 
 
-# R (Read)
-def ver_agregar_mascotas(request):
-    mascotas = Mascota.objects.all() #obtener todos las mascotas de la tabla.
-    info = {"mascotas":mascotas}
-    return render(request,'AppMascota/ver_agregar_mascotas.html', info)
-# U (Update)
+    return render(request, "registro/editar_usuario.html", {"mi_form":formulario})
 
-def actualizar_mascota(request, mascota_nombre):
-    #¿que mascota se va a actualizar?
-    mascota_selecionada =Mascota.objects.get(nombre=mascota_nombre)#encuentro la mascota que quiero actualizar
-    #Ojo, el get solo recibe un valor, si hay dos nombres de mascotas iguales habrá error, se debe refinar este codigo, por ejemplo buscando por id.
-    
-    #Depende de darle click al boton enviar
-    if request.method == "POST":
-        
-        nuevo_formulario = Mascotaformulario(request.POST)        
-        
-        if nuevo_formulario.is_valid(): #Crear un objeto usando el modelo.
-            
-            info = nuevo_formulario.cleaned_data #Para tenerlos en modo diccionario.
-            
-            #actualizar datos de mascota escogida
-            mascota_selecionada.nombre = info["nombre"]
-            mascota_selecionada.especie = info["especie"]
-            mascota_selecionada.raza = info["raza"]
-            mascota_selecionada.edad = info["edad"]
-
-            mascota_selecionada.save()
-
-            return render(request, "AppMascota/confirmacion_actualizacion.html") #muestra la plantilla de inicio
-        
-    else: #si la persona no ha hecho click en el boton enviar
-            
-        nuevo_formulario = Mascotaformulario(initial={"nombre":mascota_selecionada.nombre, "especie":mascota_selecionada.especie, "raza":mascota_selecionada.raza,"edad":mascota_selecionada.edad}) #mostraremos un formulario vacio
-
-    return render(request,"AppMascota/update_mascota.html", {"mi_form":nuevo_formulario}) #Conexion HTML con la vista
-
-# D (Delete)
-def eliminar_mascota(request, mascota_nombre):
-#¿que mascota se va a eliminar?
-    mascota_selecionada =Mascota.objects.get(nombre=mascota_nombre)#encuentro la mascota que quiero actualizar
-    mascota_selecionada.delete() #Eliminamos serie seleccionada
-    return render(request, "AppMascota/confirmacion_eliminada.html") #no es necesario un html para esto por ahora
-
-"""
 # CRUD Mascotas (VISTAS BASADAS EN CLASES)
 #Create
  #es un decorador!! --- me permite agregar funcionalidades a mi vista
@@ -191,8 +142,8 @@ class Createvacunas(CreateView):
     success_url = '/vacuna_list/'
 
 #Read
-
-class Listavacunas(ListView):
+#Añadir un Mixin
+class Listavacunas(LoginRequiredMixin, ListView):
     
     model = Vacuna # Con estas dos lineas solamente python va a buscar automaticamente un html que se llame vacuna_list.html
     #template_name = "AppMascotas/nombre_personalizado_de_template.html"
@@ -229,7 +180,7 @@ class Createconsultas(CreateView):
   
 #Read
 
-class Listaconsultas(ListView):
+class Listaconsultas(LoginRequiredMixin, ListView):
     
     model = Consulta # Con estas dos lineas solamente python va a buscar automaticamente un html que se llame mascota_list.html
     #template_name = "AppMascotas/nombre_personalizado_de_template.html"
@@ -252,154 +203,6 @@ class Borrarconsultas(DeleteView):
 class Detalleconsultas(DetailView):
     model = Consulta
 
-"""
-# CRUD Vacunas (VISTAS BASADAS EN FUNCIONES)
-
-# C (Create)
-def agregar_vacuna(request):
-    #Depende de darle click al boton enviar
-    if request.method == "POST":
-        
-        nuevo_formulario = Vacunaformulario(request.POST)        
-        
-        if nuevo_formulario.is_valid(): #Crear un objeto usando el modelo.
-            
-            info = nuevo_formulario.cleaned_data #Para tenerlos en modo diccionario.
-            
-            mascota_nueva = Vacuna(mascota=info["mascota"], vacuna=info["vacuna"], fecha=info["fecha"])
-            
-            mascota_nueva.save()
-            return render(request, "AppMascota/confirmacion.html") #muestra la plantilla de inicio
-        
-    else: #si la persona no ha hecho click en el boton enviar
-            
-        nuevo_formulario = Vacunaformulario() #mostraremos un formulario vacio
-
-    return render(request,"AppMascota/formulario_vacuna.html", {"mi_form":nuevo_formulario}) #Conexion HTML con la vista
-
-# R (Read)
-def ver_agregar_vacunas(request):
-    vacunas = Vacuna.objects.all() #obtener todos las mascotas de la tabla.
-    info = {"vacunas":vacunas}
-    return render(request,'AppMascota/ver_agregar_vacunas.html', info)
-# U (Update)
-
-# D (Delete)
-"""
-
-
-"""
-# CRUD Consultas (VISTAS BASADAS EN FUNCIONES)
-# C (Create)
-def agregar_consulta(request):
-    #Depende de darle click al boton enviar
-    if request.method == "POST":
-        
-        nuevo_formulario = Consultaformulario(request.POST)        
-        
-        if nuevo_formulario.is_valid(): #Crear un objeto usando el modelo.
-            
-            info = nuevo_formulario.cleaned_data #Para tenerlos en modo diccionario.
-            
-            mascota_nueva = Consulta(paciente=info["paciente"], fecha=info["fecha"], motivo=info["motivo"], vet=info["vet"], establecimiento=info["establecimiento"] )
-            
-            mascota_nueva.save()
-            return render(request, "AppMascota/confirmacion.html") #muestra la plantilla de inicio
-        
-    else: #si la persona no ha hecho click en el boton enviar
-            
-        nuevo_formulario = Consultaformulario() #mostraremos un formulario vacio
-
-    return render(request,"AppMascota/formulario_consulta.html", {"mi_form":nuevo_formulario}) #Conexion HTML con la vista
-
-# R (Read)
-def ver_agregar_consultas(request):
-    consultas = Consulta.objects.all() #obtener todos las mascotas de la tabla.
-    info = {"consultas":consultas}
-    return render(request,'AppMascota/ver_agregar_consultas.html', info)
-# U (Update)
-
-# D (Delete)
-"""
-
-
-# Otras VISTAS BASADAS EN FUNCIONES
-
-""" 
-#No muestran boton para ir a crear mascota desde vista de mascotas.
-
-def agregar_mascota(request):
-    #Depende de darle click al boton enviar
-    if request.method == "POST":
-        
-        nuevo_formulario = Mascotaformulario(request.POST)        
-        
-        if nuevo_formulario.is_valid(): #Crear un objeto usando el modelo.
-            
-            info = nuevo_formulario.cleaned_data #Para tenerlos en modo diccionario.
-            
-            mascota_nueva = Mascota(nombre=info["nombre"], especie=info["especie"], raza=info["raza"], edad=info["edad"])
-            
-            mascota_nueva.save()
-            return render(request, "AppMascota/confirmacion.html") #muestra la plantilla de inicio
-        
-    else: #si la persona no ha hecho click en el boton enviar
-            
-        nuevo_formulario = Mascotaformulario() #mostraremos un formulario vacio
-
-    return render(request,"AppMascota/formmascota.html", {"mi_form":nuevo_formulario}) #Conexion HTML con la vista
-
-"""
-
-"""
-#No muestran boton para ir a crear vacunas desde vista de vacunas.
-
-def agregar_vacuna(request):
-    #Depende de darle click al boton enviar
-    if request.method == "POST":
-        
-        nuevo_formulario = Vacunaformulario(request.POST)        
-        
-        if nuevo_formulario.is_valid(): #Crear un objeto usando el modelo.
-            
-            info = nuevo_formulario.cleaned_data #Para tenerlos en modo diccionario.
-            
-            mascota_nueva = Vacuna(mascota=info["mascota"], vacuna=info["vacuna"], fecha=info["fecha"])
-            
-            mascota_nueva.save()
-            return render(request, "AppMascota/confirmacion.html") #muestra la plantilla de inicio
-        
-    else: #si la persona no ha hecho click en el boton enviar
-            
-        nuevo_formulario = Vacunaformulario() #mostraremos un formulario vacio
-
-    return render(request,"AppMascota/formvacuna.html", {"mi_form":nuevo_formulario}) #Conexion HTML con la vista
-
-"""
-"""
-#No muestran boton para ir a crear consultas desde vista de consultas.
-
-def agregar_consulta(request):
-    #Depende de darle click al boton enviar
-    if request.method == "POST":
-        
-        nuevo_formulario = Consultaformulario(request.POST)        
-        
-        if nuevo_formulario.is_valid(): #Crear un objeto usando el modelo.
-            
-            info = nuevo_formulario.cleaned_data #Para tenerlos en modo diccionario.
-            
-            mascota_nueva = Consulta(paciente=info["paciente"], fecha=info["fecha"], motivo=info["motivo"], vet=info["vet"], establecimiento=info["establecimiento"] )
-            
-            mascota_nueva.save()
-            return render(request, "AppMascota/confirmacion.html") #muestra la plantilla de inicio
-        
-    else: #si la persona no ha hecho click en el boton enviar
-            
-        nuevo_formulario = Consultaformulario() #mostraremos un formulario vacio
-
-    return render(request,"AppMascota/formconsulta.html", {"mi_form":nuevo_formulario}) #Conexion HTML con la vista
-"""
 
 #Busqueda personalizada / filtrando elementos.
 

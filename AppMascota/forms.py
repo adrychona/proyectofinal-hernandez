@@ -26,7 +26,7 @@ class Consultaformulario(forms.Form):
     establecimiento = forms.CharField(max_length=100)
 
 class RegistrarUsuario(UserCreationForm):
-    username = forms.CharField(label= "Usuario") 
+    username = forms.CharField(label= "Ingrese un nombre de usuario", help_text="Evite utilizar espacios") 
     email = forms.EmailField(label= "Correo electronico") 
     #password1 = forms.PasswordInput() Este modelo agrega nuevamente el registro or default de django
     #password2 = forms.PasswordInput()
@@ -40,4 +40,12 @@ class RegistrarUsuario(UserCreationForm):
         #["username", "email", "password1", "password2", "first_name", "last_name"] campos django por defecto
         fields = ["username", "email", "password1", "password2", "first_name", "last_name"]
 
-   
+class EditarUsuario(UserCreationForm):
+    
+    email = forms.EmailField(label= "Correo electronico")
+    password1 = forms.CharField(label= "Ingrese la contraseña", widget= forms.PasswordInput) 
+    password2 = forms.CharField(label= "Confirme la contraseña", widget= forms.PasswordInput)
+    
+    class Meta:
+        model = User
+        fields = ["email","password1", "password2"]

@@ -6,3 +6,4 @@ from .models import *
 admin.site.register(Mascota)
 admin.site.register(Vacuna)
 admin.site.register(Consulta)
+admin.site.register(Avatar)
