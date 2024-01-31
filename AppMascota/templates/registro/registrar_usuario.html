@@ -1,0 +1,15 @@
+{% extends "AppMascota/padre.html" %}
+    
+
+{% block titulo %}
+<h1>Registrarse</h1>
+{% endblock %}
+
+{% block contenido %}
+<form action="" method="POST"> {% csrf_token %}
+    
+    {{formu}}
+    <input type="submit" value="Sign Up">
+</form>
+{{mensaje}}
+{% endblock %}

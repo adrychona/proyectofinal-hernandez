@@ -1,0 +1,17 @@
+{% extends "AppMascota/padre.html" %}
+
+{% block titulo %}
+
+        <h3>
+            Elimina tu mascota aquí
+        </h3>
+            
+    
+        <form action="" method="post"> {% csrf_token %}
+            
+            {{mi_form.as_p}}
+    
+            <input type="submit" value="Guardar">
+    
+        </form>
+     {% endblock %}   

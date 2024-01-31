@@ -1,0 +1,30 @@
+{% extends "AppMascota/padre.html" %}
+{% block titulo %}
+<h1>Vacunas</h1>
+{% endblock %}
+{% block contenido %}
+<h1>Listado de vacunas</h1>
+<button class="my-button" style="margin-left: 80%; margin-right: 0%; "><a href="{% url 'crear_vacuna' %}">Agregar nueva
+    vacuna</a></button>
+<table>
+  <tr>
+    <td style="padding: 15px;"><strong>Mascota</strong></td>
+    <td style="padding: 15px;"><strong>Vacuna</strong></td>
+
+    <td style="padding: 15px;"><strong>Acción</strong></td>
+  </tr>
+
+  {% for x in object_list %} <tr>
+    <td style="padding: 15px;">{{x.mascota}}</td>
+    <td style="padding: 15px;">{{x.vacuna}}</td>
+
+    <td style="padding: 15px;">
+      <button><a href="{% url 'vacuna_detail' x.id %}">Detalle</a></button>
+      <button><a href="{% url 'actualizar_vacuna' x.id %}">Actualizar</a></button>
+      <button><a href="{% url 'eliminar_vacuna' x.id %}">Eliminar</a></button>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+<br>
+{% endblock %}

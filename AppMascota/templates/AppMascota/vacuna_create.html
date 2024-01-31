@@ -1,0 +1,18 @@
+{% extends "AppMascota/padre.html" %}
+
+{% block titulo %}
+
+        <h3>
+            Agrega tus vacunas aquí
+        </h3>
+            
+    
+        <form action="" method="post"> {% csrf_token %}
+            
+            {{form.as_p}}
+    
+            <input type="submit" value="Guardar">
+    
+        </form>
+        
+     {% endblock %}   

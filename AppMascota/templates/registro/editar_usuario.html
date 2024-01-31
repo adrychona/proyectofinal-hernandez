@@ -1,0 +1,17 @@
+{% extends "AppMascota/padre.html" %}
+    
+{% block titulo %}
+<h1>Actualizar Perfil</h1>
+{% endblock %}
+
+{% block contenido %}
+
+<form action="" method="POST"> {% csrf_token %}
+    
+    {{mi_form}}
+
+    <input type="submit" value="Actualizar">
+
+</form>
+
+{% endblock %}

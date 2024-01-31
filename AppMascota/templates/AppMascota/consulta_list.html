@@ -1,0 +1,30 @@
+{% extends "AppMascota/padre.html" %}
+    {% block titulo %}
+    <h1>Consultas</h1>
+    {% endblock %}
+    {% block contenido %} 
+    <h1>Listado de consultas</h1> 
+    <button class="my-button" style="margin-left: 80%; margin-right: 0%; "><a href="{% url 'crear_consulta' %}">Agregar nueva consulta</a></button>
+
+<table  style="padding: 15px;">
+<tr>
+  <td style="padding: 15px;"><strong>Paciente</strong></td>
+  <td style="padding: 15px;"><strong>Fecha</strong></td>
+  <td style="padding: 15px;"><strong>Acción</strong></td>
+</tr>
+
+{% for x in object_list %} <tr >
+  <td style="padding: 15px;">{{x.paciente}}</td>
+  <td style="padding: 15px;">{{x.fecha}}</td>
+  <td>
+    <button><a href="{% url 'consulta_detail' x.id %}">Detalle</a></button>
+    <button><a href="{% url 'actualizar_consulta' x.id %}">Actualizar</a></button>
+    <button><a href="{% url 'eliminar_consulta' x.id %}">Eliminar</a></button>
+  </td>
+  </tr> 
+  {% endfor %}  </table>
+    <br>            
+{% endblock %}
+
+
+

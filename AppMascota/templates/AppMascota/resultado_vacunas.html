@@ -1,0 +1,21 @@
+{% extends "AppMascota/padre.html" %}
+
+    {% block titulo %}
+
+    <h1>Busqueda de vacunas por mascota: {{mascotas}} </h1>
+     
+    <table>
+        <tr>
+            <td style="padding: 15px;"><strong>fecha</strong></td>
+            <td style="padding: 15px;"><strong>Vacuna</strong></td>
+        </tr>
+    
+        {% for x in vacunas %} <tr>
+            <td style="padding: 15px;">{{x.fecha}}</td>
+            <td style="padding: 15px;">{{x.vacuna}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+  
+    {% endblock %}
+    

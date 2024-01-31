@@ -1,0 +1,18 @@
+{% extends "AppMascota/padre.html" %}
+
+{% block titulo %}
+
+<h3>
+    Elimina tus vacunas aquí
+</h3>
+
+{% endblock %}
+
+{% block contenido %}
+
+<form action="" method="POST"> {% csrf_token %}
+    <p>¿Esta seguro que desea borrar la vacuna: {{object}}?</p>
+    <input type="submit" value="Borrar">
+</form>
+
+{% endblock %}

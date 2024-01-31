@@ -1,0 +1,27 @@
+{% extends "AppMascota/padre.html" %}
+
+{% block titulo %}
+{% endblock %}
+
+{% block contenido %}
+
+<h3>Buscar vacunas por mascota</h3>
+
+<form action="/resultado_vacunas/" method="get">
+
+    Ingresa el nombre de la mascota: <input type="text" name="mascota">
+
+    <input type="submit" value="Buscar">
+</form>
+<br>
+<br>
+<h3>Buscar mascotas por especie</h3>
+
+<form action="/resultado_especies/" method="get">
+
+    Ingresa la especie de la mascota: <input type="text" name="especie">
+
+    <input type="submit" value="Buscar">
+</form>
+
+{% endblock %}

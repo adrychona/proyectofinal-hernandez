@@ -1,0 +1,25 @@
+{% extends "AppMascota/padre.html" %}
+{% block titulo %}
+<h1>Vacunas</h1>
+{% endblock %}
+{% block contenido %}
+<h3>Detalle vacuna</h3>
+
+<table>
+    <tr>
+        <td style="padding: 15px;"><strong>Mascota</strong></td>
+        <td style="padding: 15px;"><strong>Vacuna</strong></td>
+        <td style="padding: 15px;"><strong>Fecha</strong></td>
+    </tr>
+
+    <tr> 
+        <td style="padding: 15px;">{{vacuna.mascota}}</td>
+        <td style="padding: 15px;">{{vacuna.vacuna}}</td>
+        <td style="padding: 15px;">{{vacuna.fecha}}</td>
+    </tr>
+
+</table>
+<br>
+<button class="my-button" style="margin-left: 80%; margin-right: 0%; "><a
+        href="{% url 'lista_vacunas' %}">Regresar</a></button>
+{% endblock %}
