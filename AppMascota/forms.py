@@ -1,4 +1,5 @@
 from django import forms
+from .models import *
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
@@ -25,6 +26,7 @@ class Consultaformulario(forms.Form):
     vet = forms.CharField(max_length=40)
     establecimiento = forms.CharField(max_length=100)
 
+
 class RegistrarUsuario(UserCreationForm):
     username = forms.CharField(label= "Ingrese un nombre de usuario", help_text="Evite utilizar espacios") 
     email = forms.EmailField(label= "Correo electronico") 
@@ -34,6 +36,7 @@ class RegistrarUsuario(UserCreationForm):
     password2 = forms.CharField(label= "Confirme la contraseña", widget= forms.PasswordInput)
     first_name = forms.CharField(label= "Nombre")
     last_name = forms.CharField(label= "Apellido")
+
 
     class Meta:
         model = User
@@ -45,7 +48,9 @@ class EditarUsuario(UserCreationForm):
     email = forms.EmailField(label= "Correo electronico")
     password1 = forms.CharField(label= "Ingrese la contraseña", widget= forms.PasswordInput) 
     password2 = forms.CharField(label= "Confirme la contraseña", widget= forms.PasswordInput)
+    avatar = forms.ImageField(label= "Foto")
     
     class Meta:
         model = User
-        fields = ["email","password1", "password2"]
+        fields = ["email","password1", "password2", "avatar"]
+

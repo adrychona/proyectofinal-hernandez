@@ -6,7 +6,7 @@
 
 {% block contenido %}
 
-<form action="" method="POST"> {% csrf_token %}
+<form  method="POST" enctype="multipart/form-data"> {% csrf_token %}
     
     {{mi_form}}
 

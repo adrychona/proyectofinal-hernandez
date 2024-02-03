@@ -80,21 +80,34 @@ def editar_perfil(request):
 
     #Instancia del login
     user_actual = request.user
+    
      
     #Si es metodo POST ... actualizo
     if request.method == 'POST':
-        formulario = EditarUsuario(request.POST) 
-        if formulario.is_valid():  
+        formulario = EditarUsuario(request.POST, request.FILES)
+        u = User.objects.get (username=request.user)
+
+
+        if formulario.is_valid(): 
             info = formulario.cleaned_data
             user_actual.email = info['email']
             user_actual.password1 = info['password1']
             user_actual.password2 = info['password1']
+            user_actual.password2 = info['password1']
+            avatar = Avatar(usuario=u,imagen=info["avatar"])
+            
+            
+            avatar.save()
+            print('guardando avatar')
             user_actual.save()
+            print('guardando usuario')
             return render(request, "AppMascota/inicio.html")     
     else: 
         formulario= EditarUsuario(initial={ 'email':user_actual.email}) 
+        
 
     return render(request, "registro/editar_usuario.html", {"mi_form":formulario})
+
 
 # CRUD Mascotas (VISTAS BASADAS EN CLASES)
 #Create
