@@ -42,12 +42,17 @@ class Avatar(models.Model):
     def __str__(self):
         return f'{self.usuario} --- {self.imagen}'
   
-"""
-class Avatar(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    imagen = models.ImageField(default='default.jpg', upload_to='avatares', null=True, blank=True)
+
+
+class Comment(models.Model):
+    createdby = models.ForeignKey(User,on_delete=models.CASCADE)
+    body = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    active = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ['created_on']
 
     def __str__(self):
-         return f'{self.usuario} --- {self.imagen}'
-
-   """
+        return 'Comment {} by {}'.format(self.body, self.createdby)
+    

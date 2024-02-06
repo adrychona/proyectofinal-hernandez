@@ -29,6 +29,12 @@ urlpatterns = [
     path('signup/', registro, name='registro'),
     path('about/', about, name='about'),
     path('editar_perfil/', editar_perfil, name='editar_perfil'),
+
+
+    #_COMENTARIOS_#
+    path('foro/', comentar, name='foro'),
+    path('foro-list/', ver_comentarios, name='foro-list'),
+    
     #_VISTAS BASADAS EN FUNCIONES_
 
 

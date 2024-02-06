@@ -1,10 +1,11 @@
 #Archivos propies de django
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from datetime import datetime
 
 #Decorador por defecto
 from django.utils.decorators import method_decorator #me permite usar el decorator en class-based view
@@ -80,7 +81,6 @@ def editar_perfil(request):
 
     #Instancia del login
     user_actual = request.user
-    
      
     #Si es metodo POST ... actualizo
     if request.method == 'POST':
@@ -98,9 +98,8 @@ def editar_perfil(request):
             
             
             avatar.save()
-            print('guardando avatar')
             user_actual.save()
-            print('guardando usuario')
+            
             return render(request, "AppMascota/inicio.html")     
     else: 
         formulario= EditarUsuario(initial={ 'email':user_actual.email}) 
@@ -108,17 +107,56 @@ def editar_perfil(request):
 
     return render(request, "registro/editar_usuario.html", {"mi_form":formulario})
 
+################################################################
+#Agregar comentario 
 
+
+def comentar(request):
+ #Instancia del login
+    user_actual = request.user
+    u = User.objects.get (username=request.user)
+    #Si es metodo POST ... actualizo
+    if request.method == 'POST':
+        comentario = CommentForm(request.POST)
+        
+        if comentario.is_valid(): 
+            
+            
+            info = comentario.cleaned_data
+            comentario = Comment(createdby=u,body=info["body"])
+            comentario.save() #Ya se crea el usuario
+           
+            return redirect('foro-list')  #Si ya se guardo el comentario ir a la lista de comentarios
+            
+    else:   
+   
+        comentario = CommentForm()
+
+    return render(request, "registro/foro.html", {"formu":comentario}) #mostrar formulario
+
+
+
+
+
+def ver_comentarios(request):
+ 
+    comentarios = Comment.objects.all() #ver todos los comentarios
+    return render(request, "registro/foro-list.html", { "comment":comentarios})
+
+
+
+
+
+################################################################
 # CRUD Mascotas (VISTAS BASADAS EN CLASES)
 #Create
  #es un decorador!! --- me permite agregar funcionalidades a mi vista
-
 class Createmascotas(CreateView):
     model = Mascota
     template_name = "AppMascota/mascota_create.html"
     fields = ["nombre", "especie", "raza", "edad"]
     success_url = '/mascota_list/'
-  
+
 #Read
 @method_decorator(login_required, name='dispatch')
 class Listamascotas(LoginRequiredMixin, ListView):
@@ -217,7 +255,7 @@ class Borrarconsultas(DeleteView):
 
 class Detalleconsultas(DetailView):
     model = Consulta
-
+    
 
 #Busqueda personalizada / filtrando elementos.
 

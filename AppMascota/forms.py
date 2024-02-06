@@ -16,6 +16,7 @@ class Vacunaformulario(forms.Form):
     mascota = forms.CharField(max_length=40)
     vacuna = forms.CharField(max_length=40)
     fecha = forms.DateField()
+    
 
 
 class Consultaformulario(forms.Form):
@@ -25,6 +26,7 @@ class Consultaformulario(forms.Form):
     motivo = forms.CharField(max_length=100)
     vet = forms.CharField(max_length=40)
     establecimiento = forms.CharField(max_length=100)
+   
 
 
 class RegistrarUsuario(UserCreationForm):
@@ -54,3 +56,8 @@ class EditarUsuario(UserCreationForm):
         model = User
         fields = ["email","password1", "password2", "avatar"]
 
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['body']

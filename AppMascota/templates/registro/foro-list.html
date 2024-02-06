@@ -1,0 +1,30 @@
+{% extends "AppMascota/padre.html" %}
+    
+
+{% block titulo %}
+<h1>Foro</h1>
+{% endblock %}
+
+
+
+
+{% block comentario %}
+<button><a href="{% url 'foro' %}">Comentar</a></button>
+
+
+<br>
+<table>
+    <tr>
+      <td style="padding: 15px;"><strong>Comentarios</strong></td>
+    </tr>
+  
+    {% for x in comment %} <tr>
+        <td style="padding: 15px;">{{x.created_on}}</td>
+        <td style="padding: 15px;">{{x.createdby}}</td>
+      <td style="padding: 15px;">{{x.body}}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  <br>
+ 
+{% endblock %}
